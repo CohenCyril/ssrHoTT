@@ -170,6 +170,8 @@ Bind Scope Nat_scope with Nat.
 Arguments S _%Nat.
 Arguments S _.
 
+Declare ML Module "ssrhott_nat_syntax_plugin".
+
 (* Open Scope Nat_scope. *)
 
 (** Eq type *)
@@ -186,7 +188,7 @@ Notation "x = y" := (x = y :>_)%Eq : Eq_scope.
 Notation "x <> y  :> T" := (~ x = y :>T)%Eq : Eq_scope.
 Notation "x <> y" := (x <> y :>_)%Eq : Eq_scope.
 
-Local Open Scope Eq_scope.
+Open Scope Eq_scope.
 
 (** Another way of interpreting booleans as propositions *)
 
@@ -209,13 +211,14 @@ Section Eq_is_a_congruence.
 
 Variables (A B : Type) (x y z : A).
 
-Definition Eq_sym (p : x = y) : y = x := match p with Eq_refl => Eq_refl end.
+Definition Eq_sym (p : Eq x y) : y = x := match p with Eq_refl => Eq_refl end.
 
-Definition Eq_trans (p1 : x = y) : y = z ->  x = z :=
+Definition Eq_trans (p1 : Eq x y) : y = z ->  x = z :=
   match p1 with Eq_refl => fun p => p end.
 
 Definition Eq_congr1 (f : A -> B) (p : x = y) : f x = f y :=
  match p with Eq_refl => Eq_refl end.
+
 
 (* Lemma not_Eq_sym : ~ (Eq x y) -> ~ (Eq y x). *)
 (* Proof. *)
@@ -224,7 +227,7 @@ Definition Eq_congr1 (f : A -> B) (p : x = y) : f x = f y :=
 
 End Eq_is_a_congruence.
 
-Lemma Eq_congr2 (A B C : Type) (f : A -> B -> C) 
+Lemma Eq_congr2 (A B C : Type) (f : A -> B -> C)
  (x1 y1 : A) (x2 y2 : B) (p1 : x1 = y1) (p2 : x2 = y2) :  f x1 x2 = f y1 y2.
 Proof.
 destruct p1; destruct p2; reflexivity.
@@ -232,7 +235,7 @@ Qed.
 
 
 Definition Eq_ind_r :
-  forall (A : Type) (a : A) (P : A -> Prop), P a -> forall y : A, y = a -> P y.
+  forall (A : Type) (a : A) (P : A -> Prop), P a -> forall y : A, Eq y a -> P y.
  intros A x P H y H0; case Eq_sym with (1 := H0); trivial.
 Defined.
 
@@ -247,5 +250,3 @@ Definition Eq_rect_r :
 Defined.
 
 Hint Immediate Eq_sym (* not_Eq_sym*): core v62.
-
-
