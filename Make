@@ -6,3 +6,6 @@ src/ssrhott_nat_syntax.ml
 src/ssrhott_nat_syntax_plugin.mllib
 src/ssrhott_nat_syntax_plugin_mod.ml
 theories/init.v
+theories/datatypes.v
+theories/nat.v
+theories/equality.v

@@ -1,5 +1,5 @@
 (* This file extends Coq's printing/parsing features for the type Nat
-   defined in theories/init.v, which is isomorphic to nat (but in sort Type).
+   defined in theories/nat.v, which is isomorphic to nat (but in sort Type).
 
 It has been  written by immitating nat_syntax, r_syntax (from Coq sources) and
 the the sources of the ARBR contrib, sometimes not understanding fully what
@@ -25,7 +25,7 @@ let get_const dir s =
    access to the kernel name of the type. *)
 
 let make_dir l = DirPath.make (List.rev_map Id.of_string l)
-let nat_definitions = make_dir ["SsrHoTT";"init"]
+let nat_definitions = make_dir ["SsrHoTT";"nat"]
 let make_path dir id = Libnames.make_path dir (Id.of_string id)
 
 
@@ -38,8 +38,8 @@ let nat_kn = make_path nat_definitions "Nat"
 let glob_Nat = ConstRef nat_kn
 
 (* Using ATBR's function to get the global names of O and S *)
-let glob_O = get_const ["SsrHoTT";"init"] "O"
-let glob_S = get_const ["SsrHoTT";"init"] "S"
+let glob_O = get_const ["SsrHoTT";"nat"] "O"
+let glob_S = get_const ["SsrHoTT";"nat"] "S"
 
 (*----------------------------------------------------------------------------*)
 (* Again borrowed from nat_syntax:  Parsing numerals via scopes *)
@@ -91,7 +91,7 @@ let uninterp_nat p =
 
 let _ =
   Notation.declare_numeral_interpreter "Nat_scope"
-    (nat_path,["SsrHoTT";"init"])
+    (nat_path,["SsrHoTT";"nat"])
     nat_of_int
     ([GRef (Loc.ghost,glob_S,None);
       GRef (Loc.ghost,glob_O,None)], uninterp_nat, true)
