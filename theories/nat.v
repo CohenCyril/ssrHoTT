@@ -1,8 +1,10 @@
+(* -*- coq-prog-args: ("-emacs" "-top" "SsrHoTT.nat") -*- *)
+
 (*------------------------------------------------------------------------------
  In this file, we define type Nat and install a parser/printer for type Nat.
 ------------------------------------------------------------------------------*)
 
-Require Import init.
+Require Import init equality.
 
 Load "options".
 
@@ -20,3 +22,5 @@ Arguments S _%Nat.
 Arguments S _.
 
 Declare ML Module "ssrhott_nat_syntax_plugin".
+
+Check 0%Nat.
